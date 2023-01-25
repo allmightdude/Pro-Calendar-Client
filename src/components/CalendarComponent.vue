@@ -1,11 +1,14 @@
 <template>
   <div class="calendar-container">
     <div class="calendar-header">
+      {{date}}
       <h1>
         {{ currentMonth }}
         <button>▾</button>
       </h1>
-      <p>{{currentYear}}</p>
+      <button @click="nextMmonth">next</button>
+      <button @click="prevMmonth">prev</button>
+      <p>{{ currentYear }}</p>
     </div>
     <div class="calendar">
       <span class="day-name">SUN</span><span class="day-name">MON</span
@@ -46,10 +49,11 @@
 </template>
 
 <script>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 export default {
   setup() {
-    const date = new Date();
+    let date = ref(null);
+    date.value = new Date();
 
     const months = [
       "January",
@@ -68,29 +72,33 @@ export default {
 
     // Get last and first index day of current month
     let currentFirstDay = computed(() => {
-      return new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+      return new Date(
+        date.value.getFullYear(),
+        date.value.getMonth(),
+        1
+      ).getDay();
     });
     let currentLastDay = computed(() => {
-      return new Date(date.getFullYear(), date.getMonth() + 1, 0);
+      return new Date(date.value.getFullYear(), date.value.getMonth() + 1, 0);
     });
 
     // current and prev month date last day
     const currentLastDate = new Date(
-      date.getFullYear(),
-      date.getMonth() + 1,
+      date.value.getFullYear(),
+      date.value.getMonth() + 1,
       0
     ).getDate();
 
     let prevLastDate = new Date(
-      date.getFullYear(),
-      date.getMonth(),
+      date.value.getFullYear(),
+      date.value.getMonth(),
       0
     ).getDate();
 
     // corrent last day index
     const lastDayIndex = new Date(
-      date.getFullYear(),
-      date.getMonth() + 1,
+      date.value.getFullYear(),
+      date.value.getMonth() + 1,
       0
     ).getDay();
 
@@ -98,13 +106,25 @@ export default {
 
     // Get current month name
     let currentMonth = computed(() => {
-      return months[date.getMonth()];
+      return months[date.value.getMonth()];
     });
 
     // Get current Year
     let currentYear = computed(() => {
-      return date.getFullYear();
+      return date.value.getFullYear();
     });
+
+    // action months
+    const nextMmonth = function () {
+      date.value.setMonth(date.value.getMonth() + 1);
+      date.value = new Date(date.value.setMonth(date.value.getMonth() + 1));
+      console.log(date);
+    };
+
+    const prevMmonth = function () {
+      date.value.setMonth(date.value.getMonth() - 1);
+      console.log(date);
+    };
 
     return {
       currentFirstDay,
@@ -114,7 +134,11 @@ export default {
       nextDays,
 
       currentMonth,
-      currentYear
+      currentYear,
+
+      nextMmonth,
+      prevMmonth,
+      date,
     };
   },
 };
