@@ -9,6 +9,7 @@
           {{ currentMonth }}
         </h1>
         <button @click="nextMmonth">
+          cd
           <i class="fa-solid fa-arrow-right"></i>
         </button>
       </div>
@@ -29,7 +30,9 @@
         {{ prevLastDate - (currentFirstDay - index) }}
       </div>
 
-      <div class="day" v-for="day in currentLastDate" :key="day">{{ day }}</div>
+      <div class="day" v-for="day in currentLastDate" :key="day">
+        <span :class="{today : isToday(day)}">{{ day }}</span>
+      </div>
 
       <div class="day day--disabled" v-for="day in nextDays" :key="day">
         {{ day }}
@@ -138,6 +141,14 @@ export default {
       date.value = new Date(date.value.setMonth(date.value.getMonth() - 1));
     };
 
+    // Mark Today
+    function isToday(day) {
+      return (
+        day === date.value.getDate() &&
+        date.value.getMonth() === new Date().getMonth()
+      );
+    }
+
     return {
       currentFirstDay,
       currentLastDay,
@@ -151,6 +162,8 @@ export default {
       nextMmonth,
       prevMmonth,
       date,
+
+      isToday,
     };
   },
 };
@@ -169,6 +182,12 @@ body {
   box-sizing: border-box;
   font-family: Montserrat, "sans-serif";
   color: #51565d;
+}
+.today {
+  font-weight: bold;
+  font-size: 1rem;
+  border-bottom: 2px solid #2c3e50;
+  color: #2c3e50;
 }
 
 .calendar {
