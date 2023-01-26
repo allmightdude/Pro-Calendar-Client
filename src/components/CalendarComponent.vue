@@ -1,13 +1,18 @@
 <template>
   <div class="calendar-container">
     <div class="calendar-header">
-      {{ date }}
-      <h1>
-        {{ currentMonth }}
-        <button>▾</button>
-      </h1>
-      <button @click="nextMmonth">next</button>
-      <button @click="prevMmonth">prev</button>
+      <div class="header">
+        <button @click="prevMmonth">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <h1>
+          {{ currentMonth }}
+        </h1>
+        <button @click="nextMmonth">
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+
       <p>{{ currentYear }}</p>
     </div>
     <div class="calendar">
@@ -100,13 +105,18 @@ export default {
     });
 
     // corrent last day index
-    const lastDayIndex = new Date(
-      date.value.getFullYear(),
-      date.value.getMonth() + 1,
-      0
-    ).getDay();
+    const lastDayIndex = computed(() => {
+      return new Date(
+        date.value.getFullYear(),
+        date.value.getMonth() + 1,
+        0
+      ).getDay();
+    });
 
-    const nextDays = 7 - lastDayIndex - 1;
+    console.log(lastDayIndex.value);
+    const nextDays = computed(() => {
+      return 7 - lastDayIndex.value - 1;
+    });
 
     // Get current month name
     let currentMonth = computed(() => {
@@ -121,13 +131,7 @@ export default {
     // action months
     const nextMmonth = function () {
       date.value = new Date(date.value.setMonth(date.value.getMonth() + 1));
-      const currentLastDate = new Date(
-        date.value.getFullYear(),
-        date.value.getMonth() + 1,
-        0
-      ).getDate();
-
-      console.log(`date : `, currentLastDate);
+      console.log(nextDays.value);
     };
 
     const prevMmonth = function () {
@@ -193,6 +197,13 @@ body {
       rgb(250, 251, 253) 0%,
       rgba(255, 255, 255, 0) 100%
     );
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+    }
     border-bottom: 1px solid rgba(166, 168, 179, 0.12);
 
     h1 {
