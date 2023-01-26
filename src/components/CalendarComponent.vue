@@ -1,7 +1,7 @@
 <template>
   <div class="calendar-container">
     <div class="calendar-header">
-      {{date}}
+      {{ date }}
       <h1>
         {{ currentMonth }}
         <button>▾</button>
@@ -21,7 +21,7 @@
         v-for="(index, day) in currentFirstDay"
         :key="day"
       >
-        {{ prevLastDay - (currentFirstDay + 1 - index) }}
+        {{ prevLastDate - (currentFirstDay - index) }}
       </div>
 
       <div class="day" v-for="day in currentLastDate" :key="day">{{ day }}</div>
@@ -83,17 +83,21 @@ export default {
     });
 
     // current and prev month date last day
-    const currentLastDate = new Date(
-      date.value.getFullYear(),
-      date.value.getMonth() + 1,
-      0
-    ).getDate();
+    const currentLastDate = computed(() => {
+      return new Date(
+        date.value.getFullYear(),
+        date.value.getMonth() + 1,
+        0
+      ).getDate();
+    });
 
-    let prevLastDate = new Date(
-      date.value.getFullYear(),
-      date.value.getMonth(),
-      0
-    ).getDate();
+    let prevLastDate = computed(() => {
+      return new Date(
+        date.value.getFullYear(),
+        date.value.getMonth(),
+        0
+      ).getDate();
+    });
 
     // corrent last day index
     const lastDayIndex = new Date(
@@ -116,14 +120,18 @@ export default {
 
     // action months
     const nextMmonth = function () {
-      date.value.setMonth(date.value.getMonth() + 1);
       date.value = new Date(date.value.setMonth(date.value.getMonth() + 1));
-      console.log(date);
+      const currentLastDate = new Date(
+        date.value.getFullYear(),
+        date.value.getMonth() + 1,
+        0
+      ).getDate();
+
+      console.log(`date : `, currentLastDate);
     };
 
     const prevMmonth = function () {
-      date.value.setMonth(date.value.getMonth() - 1);
-      console.log(date);
+      date.value = new Date(date.value.setMonth(date.value.getMonth() - 1));
     };
 
     return {
