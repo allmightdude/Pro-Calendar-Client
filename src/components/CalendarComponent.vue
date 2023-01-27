@@ -9,7 +9,6 @@
           {{ currentMonth }}
         </h1>
         <button @click="nextMmonth">
-          cd
           <i class="fa-solid fa-arrow-right"></i>
         </button>
       </div>
@@ -31,7 +30,7 @@
       </div>
 
       <div class="day" v-for="day in currentLastDate" :key="day">
-        <span :class="{today : isToday(day)}">{{ day }}</span>
+        <span :class="{ today: isToday(day) }">{{ day }}</span>
       </div>
 
       <div class="day day--disabled" v-for="day in nextDays" :key="day">
@@ -57,11 +56,31 @@
 </template>
 
 <script>
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
+import { collection, getDocs } from "firebase/firestore";
+import db from "../init.js";
 export default {
   setup() {
     let date = ref(null);
     date.value = new Date();
+
+    // Get Events
+    let myEvents = ref([]);
+    async function getEvents() {
+      const querySnapshot = await getDocs(collection(db, "myEvent"));
+      let events = [];
+      querySnapshot.forEach((doc) => {
+        let appData = doc.data();
+        appData.id = doc.id;
+        events.push(appData);
+      });
+
+      myEvents.value = events;
+    }
+
+    onMounted(() => {
+      getEvents();
+    });
 
     const months = [
       "January",

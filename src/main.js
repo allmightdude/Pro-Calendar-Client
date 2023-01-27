@@ -12,7 +12,9 @@ import { far } from "@fortawesome/free-regular-svg-icons";
 library.add(fas, far, fab);
 dom.watch();
 
-createApp(App)
+
+const app = createApp(App);
+app
   .component("font-awesome-icon", FontAwesomeIcon)
   .use(store)
   .use(router)
