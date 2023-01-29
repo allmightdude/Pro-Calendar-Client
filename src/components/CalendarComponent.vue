@@ -2,7 +2,6 @@
   <div class="calendar-container">
     <div class="calendar-header">
       <div class="header">
-        {{ myEvents[1] }}
         <button @click="prevMmonth">
           <i class="fa-solid fa-arrow-left"></i>
         </button>
@@ -252,8 +251,8 @@ export default {
         let yearEvent = event.start.split("-")[0];
         if (
           dayEvent == day &&
-          monthEvent == new Date().getMonth() + 1 &&
-          yearEvent == new Date().getFullYear()
+          monthEvent == date.value.getMonth() + 1 &&
+          yearEvent == date.value.getFullYear()
         ) {
           return event;
         }
