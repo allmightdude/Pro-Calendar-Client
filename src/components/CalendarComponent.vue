@@ -2,6 +2,7 @@
   <div class="calendar-container">
     <div class="calendar-header">
       <div class="header">
+        {{ myEvents[1] }}
         <button @click="prevMmonth">
           <i class="fa-solid fa-arrow-left"></i>
         </button>
@@ -29,11 +30,85 @@
         {{ prevLastDate - (currentFirstDay - index) }}
       </div>
 
-      <div class="day" v-for="day in currentLastDate" :key="day">
-        <span :class="{ today: isToday(day) }">{{ day }}</span>
-      </div>
+      <!-- Main Days of Month -->
 
-      <div class="day day--disabled" v-for="day in nextDays" :key="day">
+      <div class="day" v-for="day in currentLastDate" :key="day">
+        <div :class="{ today: isToday(day) }">
+          {{ day }}
+
+          <ul class="task-wrapper" v-if="checkEvent(day).length > 0">
+            <li
+              class="task task--warning"
+              v-for="task in checkEvent(day)"
+              :key="task.id"
+            >
+              {{ task.name }}
+            </li>
+            <li
+              class="task task--warning"
+              v-for="task in checkEvent(day)"
+              :key="task.id"
+            >
+              {{ task.name }}
+            </li>
+            <li
+              class="task task--warning"
+              v-for="task in checkEvent(day)"
+              :key="task.id"
+            >
+              {{ task.name }}
+            </li>
+            <li
+              class="task task--warning"
+              v-for="task in checkEvent(day)"
+              :key="task.id"
+            >
+              {{ task.name }}
+            </li>
+            <li
+              class="task task--warning"
+              v-for="task in checkEvent(day)"
+              :key="task.id"
+            >
+              {{ task.name }}
+            </li>
+            <li
+              class="task task--warning"
+              v-for="task in checkEvent(day)"
+              :key="task.id"
+            >
+              {{ task.name }}
+            </li>
+            <li
+              class="task task--warning"
+              v-for="task in checkEvent(day)"
+              :key="task.id"
+            >
+              {{ task.name }}
+            </li>
+            <li
+              class="task task--warning"
+              v-for="task in checkEvent(day)"
+              :key="task.id"
+            >
+              {{ task.name }}
+            </li>
+            <li
+              class="task task--warning"
+              v-for="task in checkEvent(day)"
+              :key="task.id"
+            >
+              {{ task.name }}
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div
+        class="day day--disabled"
+        v-for="day in nextDays"
+        :key="day"
+        ref="testRef"
+      >
         {{ day }}
       </div>
       <!-- <div class="day day--disabled">31</div>
@@ -52,6 +127,7 @@
       </section>
       <section class="task task--info">Product Checkup 2</section> -->
     </div>
+
   </div>
 </template>
 
@@ -63,6 +139,7 @@ export default {
   setup() {
     let date = ref(null);
     date.value = new Date();
+    let width = ref();
 
     // Get Events
     let myEvents = ref([]);
@@ -74,11 +151,11 @@ export default {
         appData.id = doc.id;
         events.push(appData);
       });
-
       myEvents.value = events;
     }
 
     onMounted(() => {
+      width.value = document.querySelector(".day").clientWidth;
       getEvents();
     });
 
@@ -135,7 +212,6 @@ export default {
       ).getDay();
     });
 
-    console.log(lastDayIndex.value);
     const nextDays = computed(() => {
       return 7 - lastDayIndex.value - 1;
     });
@@ -168,6 +244,25 @@ export default {
       );
     }
 
+    // Check Event
+    function checkEvent(day) {
+      let events = myEvents.value.filter((event) => {
+        let dayEvent = event.start.split("-")[2];
+        let monthEvent = Number(event.start.split("-")[1]);
+        let yearEvent = event.start.split("-")[0];
+        if (
+          dayEvent == day &&
+          monthEvent == new Date().getMonth() + 1 &&
+          yearEvent == new Date().getFullYear()
+        ) {
+          return event;
+        }
+      });
+
+      console.log(events);
+      return events;
+    }
+
     return {
       currentFirstDay,
       currentLastDay,
@@ -183,6 +278,10 @@ export default {
       date,
 
       isToday,
+
+      myEvents,
+      width,
+      checkEvent,
     };
   },
 };
@@ -193,6 +292,19 @@ html,
 body {
   width: 100%;
   height: 100%;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+*,
+::before,
+::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
 }
 
 body {
@@ -201,12 +313,14 @@ body {
   box-sizing: border-box;
   font-family: Montserrat, "sans-serif";
   color: #51565d;
+  font-size: 1.3rem;
 }
 .today {
   font-weight: bold;
   font-size: 1rem;
   border-bottom: 2px solid #2c3e50;
   color: #2c3e50;
+  display: inline-block;
 }
 
 .calendar {
@@ -215,7 +329,6 @@ body {
   grid-template-columns: repeat(7, minmax(120px, 1fr));
   grid-template-rows: 50px;
   grid-auto-rows: 120px;
-  overflow: auto;
 
   &-container {
     width: 90%;
@@ -271,7 +384,7 @@ body {
   border-bottom: 1px solid rgba(166, 168, 179, 0.12);
   border-right: 1px solid rgba(166, 168, 179, 0.12);
   text-align: right;
-  padding: 14px 20px;
+  padding: 0.5rem 2rem 1.4rem 0;
   letter-spacing: 1px;
   font-size: 12px;
   box-sizing: border-box;
@@ -279,6 +392,8 @@ body {
   position: relative;
   pointer-events: none;
   z-index: 1;
+  height: auto;
+  display: inline-block;
 
   &:nth-of-type(7n + 7) {
     border-right: 0;
@@ -349,13 +464,26 @@ body {
   }
 }
 
+.task-wrapper {
+  width: 100%;
+  height: 100px;
+  overflow-y: scroll;
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
+  overflow: hidden;
+  overflow-y: scroll;
+}
 .task {
   border-left-width: 3px;
-  padding: 8px 12px;
-  margin: 10px;
+  padding: 0.4rem 0.6rem;
   border-left-style: solid;
-  font-size: 14px;
+  font-size: 0.6rem;
   position: relative;
+  left: 0;
+  opacity: 0.7;
+  text-align: left;
+  display: block;
+  margin-top: .2rem;
 
   &--warning {
     border-left-color: #fdb44d;
@@ -364,14 +492,14 @@ body {
     background: #fef0db;
     align-self: center;
     color: darken(#fdb44d, 12%);
-    margin-top: -5px;
+    // margin-top: -5px;
   }
 
   &--danger {
     border-left-color: #fa607e;
     grid-column: 2 / span 3;
     grid-row: 3;
-    margin-top: 15px;
+    // margin-top: 15px;
     background: rgba(#fdc5d0, 0.7);
     align-self: end;
     color: darken(#fa607e, 12%);
@@ -381,7 +509,7 @@ body {
     border-left-color: #4786ff;
     grid-column: 6 / span 2;
     grid-row: 5;
-    margin-top: 15px;
+    // margin-top: 15px;
     background: rgba(#dae7ff, 0.7);
     align-self: end;
     color: darken(#4786ff, 12%);
@@ -449,5 +577,9 @@ body {
       color: rgba(#51565d, 0.7);
     }
   }
+}
+
+ul , li{
+  list-style-type: none;
 }
 </style>
