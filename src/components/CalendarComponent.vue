@@ -1,4 +1,5 @@
 <template>
+  <base-dialog :show="show" @close="handleError"></base-dialog>
   <div class="calendar-container">
     <div class="calendar-header">
       <div class="header">
@@ -40,62 +41,7 @@
               class="task task--warning"
               v-for="task in checkEvent(day)"
               :key="task.id"
-            >
-              {{ task.name }}
-            </li>
-            <li
-              class="task task--warning"
-              v-for="task in checkEvent(day)"
-              :key="task.id"
-            >
-              {{ task.name }}
-            </li>
-            <li
-              class="task task--warning"
-              v-for="task in checkEvent(day)"
-              :key="task.id"
-            >
-              {{ task.name }}
-            </li>
-            <li
-              class="task task--warning"
-              v-for="task in checkEvent(day)"
-              :key="task.id"
-            >
-              {{ task.name }}
-            </li>
-            <li
-              class="task task--warning"
-              v-for="task in checkEvent(day)"
-              :key="task.id"
-            >
-              {{ task.name }}
-            </li>
-            <li
-              class="task task--warning"
-              v-for="task in checkEvent(day)"
-              :key="task.id"
-            >
-              {{ task.name }}
-            </li>
-            <li
-              class="task task--warning"
-              v-for="task in checkEvent(day)"
-              :key="task.id"
-            >
-              {{ task.name }}
-            </li>
-            <li
-              class="task task--warning"
-              v-for="task in checkEvent(day)"
-              :key="task.id"
-            >
-              {{ task.name }}
-            </li>
-            <li
-              class="task task--warning"
-              v-for="task in checkEvent(day)"
-              :key="task.id"
+              @click="showEvent"
             >
               {{ task.name }}
             </li>
@@ -126,7 +72,6 @@
       </section>
       <section class="task task--info">Product Checkup 2</section> -->
     </div>
-
   </div>
 </template>
 
@@ -134,11 +79,14 @@
 import { computed, onMounted, ref } from "vue";
 import { collection, getDocs } from "firebase/firestore";
 import db from "../init.js";
+
 export default {
   setup() {
     let date = ref(null);
+    let currentDate = ref(new Date());
     date.value = new Date();
     let width = ref();
+    let show = ref(false);
 
     // Get Events
     let myEvents = ref([]);
@@ -227,19 +175,30 @@ export default {
 
     // action months
     const nextMmonth = function () {
-      date.value = new Date(date.value.setMonth(date.value.getMonth() + 1));
-      console.log(nextDays.value);
+      date.value = new Date(
+        date.value.getFullYear(),
+        date.value.getMonth() + 1,
+        1
+      );
+      // date.value = new Date(date.value.setMonth(date.value.getMonth() + 1));
     };
 
     const prevMmonth = function () {
-      date.value = new Date(date.value.setMonth(date.value.getMonth() - 1));
+      // date.value = new Date(date.value.setMonth(date.value.getMonth() - 1));
+      date.value = new Date(
+        date.value.getFullYear(),
+        date.value.getMonth() - 1,
+        1
+      );
+      console.log(date.value);
     };
 
     // Mark Today
     function isToday(day) {
       return (
-        day === date.value.getDate() &&
-        date.value.getMonth() === new Date().getMonth()
+        day === currentDate.value.getDate() &&
+        currentDate.value.getMonth() === new Date().getMonth() &&
+        currentDate.value.getFullYear() === new Date().getFullYear()
       );
     }
 
@@ -258,8 +217,16 @@ export default {
         }
       });
 
-      console.log(events);
       return events;
+    }
+
+    // Show Event Detail
+    function showEvent() {
+      show.value = true;
+    }
+
+    function handleError() {
+      show.value = false;
     }
 
     return {
@@ -281,6 +248,10 @@ export default {
       myEvents,
       width,
       checkEvent,
+
+      showEvent,
+      show,
+      handleError,
     };
   },
 };
@@ -332,7 +303,6 @@ body {
   &-container {
     width: 90%;
     margin: auto;
-    overflow: hidden;
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     background: #fff;
@@ -379,20 +349,83 @@ body {
   }
 }
 
+.task-wrapper {
+  width: 100%;
+  height: 100px;
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
+  overflow: hidden;
+  overflow-y: scroll;
+  z-index: 10;
+}
+
+ul,
+li {
+  list-style-type: none;
+}
+
+.calendar {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(7, minmax(120px, 1fr));
+  grid-template-rows: 50px;
+  grid-auto-rows: 120px;
+  overflow: auto;
+
+  &-container {
+    width: 90%;
+    margin: auto;
+    overflow: hidden;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    background: #fff;
+    max-width: 1200px;
+  }
+
+  &-header {
+    text-align: center;
+    padding: 20px 0;
+    background: linear-gradient(
+      to bottom,
+      rgb(250, 251, 253) 0%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    border-bottom: 1px solid rgba(166, 168, 179, 0.12);
+
+    h1 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    p {
+      margin: 5px 0 0 0;
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(#51565d, 0.4);
+    }
+
+    button {
+      background: 0;
+      border: 0;
+      padding: 0;
+      color: rgba(#51565d, 0.7);
+      cursor: pointer;
+      outline: 0;
+    }
+  }
+}
+
 .day {
   border-bottom: 1px solid rgba(166, 168, 179, 0.12);
   border-right: 1px solid rgba(166, 168, 179, 0.12);
   text-align: right;
-  padding: 0.5rem 2rem 1.4rem 0;
+  padding: 14px 20px;
   letter-spacing: 1px;
   font-size: 12px;
   box-sizing: border-box;
   color: #98a0a6;
   position: relative;
-  pointer-events: none;
   z-index: 1;
-  height: auto;
-  display: inline-block;
 
   &:nth-of-type(7n + 7) {
     border-right: 0;
@@ -463,15 +496,6 @@ body {
   }
 }
 
-.task-wrapper {
-  width: 100%;
-  height: 100px;
-  overflow-y: scroll;
-  -ms-overflow-style: none; /* for Internet Explorer, Edge */
-  scrollbar-width: none; /* for Firefox */
-  overflow: hidden;
-  overflow-y: scroll;
-}
 .task {
   border-left-width: 3px;
   padding: 0.4rem 0.6rem;
@@ -482,7 +506,8 @@ body {
   opacity: 0.7;
   text-align: left;
   display: block;
-  margin-top: .2rem;
+  margin-top: 0.2rem;
+  cursor: pointer;
 
   &--warning {
     border-left-color: #fdb44d;
@@ -498,7 +523,7 @@ body {
     border-left-color: #fa607e;
     grid-column: 2 / span 3;
     grid-row: 3;
-    // margin-top: 15px;
+    margin-top: 15px;
     background: rgba(#fdc5d0, 0.7);
     align-self: end;
     color: darken(#fa607e, 12%);
@@ -508,7 +533,7 @@ body {
     border-left-color: #4786ff;
     grid-column: 6 / span 2;
     grid-row: 5;
-    // margin-top: 15px;
+    margin-top: 15px;
     background: rgba(#dae7ff, 0.7);
     align-self: end;
     color: darken(#4786ff, 12%);
@@ -576,9 +601,5 @@ body {
       color: rgba(#51565d, 0.7);
     }
   }
-}
-
-ul , li{
-  list-style-type: none;
 }
 </style>
