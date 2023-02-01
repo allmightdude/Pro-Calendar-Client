@@ -1,5 +1,5 @@
 <template>
-  <div class="backdrop" v-if="show">
+  <div class="backdrop" v-if="show" @click="close">
     <div class="close" @click="close">
       <i class="fa fa-times"></i>
     </div>
@@ -7,7 +7,7 @@
   <div class="event" v-if="show" open>
     <base-card>
       <h1 class="event__title">
-        Visit Doctor
+        {{ event.value.name }}
 
         <button class="checkEvent">Check</button>
       </h1>
@@ -21,13 +21,12 @@
       </div>
       <hr />
       <p class="event__description">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum, nam
-        veniam. Repudiandae consequatur iusto quibusdam tenetur necessitatibus,
-        alias ab repellendus, doloremque nemo at eius tempore error voluptate
-        officiis provident explicabo.
+        {{ event.value.details }}
       </p>
 
-      <div class="date"><b>Date</b> : <span>2023-12-12</span></div>
+      <div class="date">
+        <b>Date</b> : <span>{{ event.value.name }}</span>
+      </div>
 
       <h4>Friends Added to event</h4>
       <div class="event__friends">
@@ -65,16 +64,10 @@
       </div>
     </base-card>
   </div>
-
-  <div class="loader" v-if="loading">
-    <base-card>
-      <img src="@/assets/loader.gif" alt="" />
-    </base-card>
-  </div>
 </template>
 <script>
 export default {
-  props: ["show", "loading"],
+  props: ["show", "event"],
   emits: ["close"],
   methods: {
     close() {
@@ -143,6 +136,7 @@ p {
 
 .date {
   font-size: 0.9rem;
+  margin-top: 2rem;
 
   span {
     background-color: #edc126;
@@ -150,6 +144,15 @@ p {
     border-radius: 10px;
     color: white;
     letter-spacing: 0.5px;
+    position: relative;
+
+    &::before{
+      position: absolute;
+      content: 'yyyy-mm-dddd';
+      top: -.75rem;
+      color: #929292;
+      font-size: 0.5rem;;
+    }
   }
 }
 

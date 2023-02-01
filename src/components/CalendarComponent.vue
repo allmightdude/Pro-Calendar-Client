@@ -5,7 +5,8 @@
     </base-card>
   </div>
 
-  <base-dialog :show="show" @close="handleError"></base-dialog>
+  <base-dialog :show="show" @close="handleError" :event="eventSelected"></base-dialog>
+
   <div class="calendar-container">
     <div class="calendar-header">
       <div class="header">
@@ -47,7 +48,7 @@
               class="task task--warning"
               v-for="task in checkEvent(day)"
               :key="task.id"
-              @click="showEvent"
+              @click="showEvent(task)"
             >
               {{ task.name }}
             </li>
@@ -82,7 +83,7 @@
 </template>
 
 <script>
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import { collection, getDocs } from "firebase/firestore";
 import { useStore } from "vuex";
 import db from "../init.js";
@@ -96,6 +97,7 @@ export default {
     date.value = new Date();
     let width = ref();
     let show = ref(false);
+    let eventSelected = reactive({});
 
     // Get Events
     let loading = ref(false);
@@ -242,7 +244,9 @@ export default {
     }
 
     // Show Event Detail
-    function showEvent() {
+    function showEvent(task) {
+      eventSelected.value = task;
+      console.log(eventSelected.value);
       show.value = true;
     }
 
@@ -275,6 +279,7 @@ export default {
       handleError,
 
       loading,
+      eventSelected
     };
   },
 };
