@@ -65,10 +65,16 @@
       </div>
     </base-card>
   </div>
+
+  <div class="loader" v-if="loading">
+    <base-card>
+      <img src="@/assets/loader.gif" alt="" />
+    </base-card>
+  </div>
 </template>
 <script>
 export default {
-  props: ["show"],
+  props: ["show", "loading"],
   emits: ["close"],
   methods: {
     close() {

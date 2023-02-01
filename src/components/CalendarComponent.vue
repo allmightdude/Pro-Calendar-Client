@@ -1,4 +1,10 @@
 <template>
+  <div class="loading" v-if="loading">
+    <base-card>
+      <img src="@/assets/loader.gif" alt="" />
+    </base-card>
+  </div>
+
   <base-dialog :show="show" @close="handleError"></base-dialog>
   <div class="calendar-container">
     <div class="calendar-header">
@@ -78,10 +84,13 @@
 <script>
 import { computed, onMounted, ref } from "vue";
 import { collection, getDocs } from "firebase/firestore";
+import { useStore } from "vuex";
 import db from "../init.js";
 
 export default {
   setup() {
+    const store = useStore();
+
     let date = ref(null);
     let currentDate = ref(new Date());
     date.value = new Date();
@@ -89,17 +98,29 @@ export default {
     let show = ref(false);
 
     // Get Events
-    let myEvents = ref([]);
+    let loading = ref(false);
     async function getEvents() {
-      const querySnapshot = await getDocs(collection(db, "myEvent"));
-      let events = [];
-      querySnapshot.forEach((doc) => {
-        let appData = doc.data();
-        appData.id = doc.id;
-        events.push(appData);
-      });
-      myEvents.value = events;
+      loading.value = true;
+      try {
+        const querySnapshot = await getDocs(collection(db, "myEvent"));
+        let events = [];
+        querySnapshot.forEach((doc) => {
+          let appData = doc.data();
+          appData.id = doc.id;
+          events.push(appData);
+        });
+        store.dispatch("events/getEvents", {
+          events: events,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+      loading.value = false;
     }
+
+    let myEvents = computed(() => {
+      return store.getters["events/getEvents"];
+    });
 
     onMounted(() => {
       width.value = document.querySelector(".day").clientWidth;
@@ -252,6 +273,8 @@ export default {
       showEvent,
       show,
       handleError,
+
+      loading,
     };
   },
 };
@@ -291,6 +314,22 @@ body {
   border-bottom: 2px solid #2c3e50;
   color: #2c3e50;
   display: inline-block;
+}
+
+.loading {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+
+  img {
+    width: 4rem;
+    height: 4rem;
+  }
 }
 
 .calendar {
