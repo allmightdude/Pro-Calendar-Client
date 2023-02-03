@@ -117,10 +117,10 @@ html {
   }
 
   &__friends-plus {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 3.5rem;
+    height: 3.5rem;
     background-color: #120e43;
-    font-size: 0.7rem;
+    font-size: 1.1rem;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -185,10 +185,11 @@ h4 {
   position: absolute;
   top: 3rem;
   right: 3rem;
-  width: 2rem;
-  height: 2rem;
+  width: 4rem;
+  height: 4rem;
+  text-align: center;
+  line-height: 4rem;
   border-radius: 50%;
-  line-height: 2rem;
   color: white;
   border: 1px solid #f4be2c;
 }

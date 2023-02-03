@@ -1,0 +1,61 @@
+<template>
+  <div class="form">
+    <FormKit
+      type="form"
+      id="registration-example"
+      :form-class="submitted ? 'hide' : 'show'"
+      submit-label="Register"
+      @submit="submitHandler"
+      :actions="false"
+    >
+      <h1>Register!</h1>
+
+      <FormKit
+        type="email"
+        name="email"
+        label="E-Mail"
+        placeholder="test@gmail.com"
+        help="What's your Email?"
+        validation="required|email"
+      />
+      <FormKit
+        type="text"
+        name="name"
+        label="Your Name"
+        placeholder="Farid Sabzi"
+        help="What's your nickname or name?"
+        validation="required"
+      />
+      <FormKit
+        type="password"
+        name="password"
+        label="Password"
+        validation="required|length:6|matches:/[^a-zA-Z]/"
+        :validation-messages="{
+          matches: 'Please include at least one symbol',
+        }"
+        placeholder="Your password"
+        help="Choose a password"
+      />
+
+      <FormKit type="submit" label="Register" />
+    </FormKit>
+    <div v-if="submitted">
+      <h2>Submission successful!</h2>
+    </div>
+  </div>
+</template>
+
+<style lang="scss">
+.form {
+  width: 420px;
+  padding: 1.5em;
+  border: 1px solid #e4e4e4;
+  border-radius: 1em;
+  margin: 10rem auto 1em auto;
+}
+
+button{
+  background-color: #5DA3FA !important;
+}
+</style>

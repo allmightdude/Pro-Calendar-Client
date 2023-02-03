@@ -105,6 +105,7 @@
 
         <div class="navbar__icon">
           <i class="fas fa-bell"></i>
+          <div class="badge">10</div>
 
           <div class="submenu-holder notification-menu">
             <h3>Notifications</h3>
@@ -172,7 +173,18 @@
   height: auto;
   max-height: 20rem;
 }
-
+.badge{
+  background-color: #B4161B;
+  top: -1rem;
+  border-radius: 50%;
+  position: absolute;
+  font-size: .8rem;
+  width: 1.8rem;
+  height: 1.8rem;
+  text-align: center;
+  line-height: 1.8rem;
+  color: white;
+}
 .friends-menu {
   width: 15rem;
   left: -11rem;
