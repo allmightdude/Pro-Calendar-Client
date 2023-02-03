@@ -5,6 +5,10 @@ import store from "./store";
 import BaseCard from "./components/ui/BaseCard.vue";
 import BaseDialog from "./components/ui/BaseDialog.vue";
 
+// Formkit
+import { plugin, defaultConfig } from "@formkit/vue";
+import '@formkit/themes/genesis';
+
 // import fontawsome
 import { library, dom } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -21,4 +25,5 @@ app
   .component("font-awesome-icon", FontAwesomeIcon)
   .use(store)
   .use(router)
+  .use(plugin, defaultConfig)
   .mount("#app");
