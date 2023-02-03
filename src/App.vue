@@ -3,24 +3,35 @@
 </template>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+html,
+body {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
 }
 
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+html {
+  font-size: 62.5%;
 }
+
+*,
+::before,
+::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+body {
+  background: #f5f7fa;
+  box-sizing: border-box;
+  font-family: Montserrat, "sans-serif";
+  color: #51565d;
+  font-size: 1.3rem;
+}
+
+ul , li{
+  list-style: none;
+}
+
 </style>

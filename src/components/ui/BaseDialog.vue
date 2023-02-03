@@ -25,7 +25,7 @@
       </p>
 
       <div class="date">
-        <b>Date</b> : <span>{{ event.value.name }}</span>
+        <b>Date</b> : <span>{{ event.value.start }}</span>
       </div>
 
       <h4>Friends Added to event</h4>
@@ -135,7 +135,7 @@ p {
 }
 
 .date {
-  font-size: 0.9rem;
+  font-size: 0.78rem;
   margin-top: 2rem;
 
   span {
