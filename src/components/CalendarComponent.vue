@@ -5,7 +5,11 @@
     </base-card>
   </div>
 
-  <base-dialog :show="show" @close="handleError" :event="eventSelected"></base-dialog>
+  <base-dialog
+    :show="show"
+    @close="handleError"
+    :event="eventSelected"
+  ></base-dialog>
 
   <div class="calendar-container">
     <div class="calendar-header">
@@ -279,14 +283,13 @@ export default {
       handleError,
 
       loading,
-      eventSelected
+      eventSelected,
     };
   },
 };
 </script>
 
 <style scoped lang="scss">
-
 .today {
   font-weight: bold;
   font-size: 1rem;
@@ -304,10 +307,15 @@ export default {
   z-index: 100;
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(4px);
+  .card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
   img {
-    width: 4rem;
-    height: 4rem;
+    width: 6rem;
+    height: 6rem;
   }
 }
 

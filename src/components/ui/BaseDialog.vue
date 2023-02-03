@@ -6,12 +6,12 @@
   </div>
   <div class="event" v-if="show" open>
     <base-card>
-      <h1 class="event__title">
+      <h2 class="event__title">
         {{ event.value.name }}
 
         <button class="checkEvent">Check</button>
-      </h1>
-      <div class="actions">
+      </h2>
+      <div class="actions mt-1">
         <span>
           <i class="fa fa-trash"></i>
         </span>
@@ -20,16 +20,16 @@
         </span>
       </div>
       <hr />
-      <p class="event__description">
+      <p class="event__description mt-1">
         {{ event.value.details }}
       </p>
 
-      <div class="date">
+      <div class="date mt-3">
         <b>Date</b> : <span>{{ event.value.start }}</span>
       </div>
 
-      <h4>Friends Added to event</h4>
-      <div class="event__friends">
+      <h4 class="mt-2">Friends Added to event</h4>
+      <div class="event__friends mt-1">
         <div class="event__friends-item">
           <div class="event__friends-img">
             <img src="@/assets/images/ErnestHemingway.jpg" alt="" />
@@ -96,8 +96,8 @@ html {
     display: flex;
     align-items: center;
     &-img {
-      width: 2.5rem;
-      height: 2.5rem;
+      width: 4rem;
+      height: 4rem;
       img {
         width: 100%;
         height: 100%;
@@ -129,14 +129,13 @@ html {
   }
 }
 p {
-  font-size: 0.8rem;
+  font-size: 1.2rem;
   line-height: 1.4;
   color: #929292;
 }
 
 .date {
-  font-size: 0.78rem;
-  margin-top: 2rem;
+  font-size: 1.2rem;
 
   span {
     background-color: #edc126;
@@ -145,13 +144,14 @@ p {
     color: white;
     letter-spacing: 0.5px;
     position: relative;
+    font-size: 1.5rem;
 
     &::before{
       position: absolute;
       content: 'yyyy-mm-dddd';
-      top: -.75rem;
+      top: -1.5rem;
       color: #929292;
-      font-size: 0.5rem;;
+      font-size: 1rem;;
     }
   }
 }

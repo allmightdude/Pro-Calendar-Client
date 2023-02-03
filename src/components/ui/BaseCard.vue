@@ -16,7 +16,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 30rem;
-  max-width: 20rem;
+  width: 40rem;
+  max-width: 59rem;
 }
 </style>

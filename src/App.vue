@@ -27,11 +27,16 @@ body {
   box-sizing: border-box;
   font-family: Montserrat, "sans-serif";
   color: #51565d;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
 }
 
 ul , li{
   list-style: none;
 }
+
+.mt-1{margin-top: 1rem;}
+.mt-2{margin-top: 2rem;}
+.mt-3{margin-top: 3rem;}
+.mt-4{margin-top: 4rem;}
 
 </style>
