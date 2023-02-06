@@ -95,7 +95,6 @@ import db from "../init.js";
 export default {
   setup() {
     const store = useStore();
-
     let date = ref(null);
     let currentDate = ref(new Date());
     date.value = new Date();

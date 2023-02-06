@@ -30,7 +30,7 @@
         help="Choose a password"
       />
 
-      <FormKit type="submit" label="Register" />
+      <FormKit type="submit" label="Login" />
     </FormKit>
     <div v-if="submitted">
       <h2>Submission successful!</h2>
@@ -38,7 +38,7 @@
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .form {
   width: 420px;
   padding: 1.5em;

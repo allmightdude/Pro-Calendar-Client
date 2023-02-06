@@ -182,7 +182,7 @@
   width: 1.8rem;
   height: 1.8rem;
   text-align: center;
-  line-height: 1.8rem;
+  line-height: 1.8rem ;
   color: white;
 }
 .friends-menu {

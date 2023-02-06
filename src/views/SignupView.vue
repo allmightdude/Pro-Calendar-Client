@@ -38,6 +38,16 @@
         help="Choose a password"
       />
 
+      <FormKit
+        type="file"
+        label="Drivers license"
+        name="license"
+        help="Please add a scan of your driver’s license"
+        accept=".jpg,.png,.pdf"
+        validation="required"
+        multiple="false"
+      />
+
       <FormKit type="submit" label="Register" />
     </FormKit>
     <div v-if="submitted">
@@ -46,7 +56,71 @@
   </div>
 </template>
 
-<style lang="scss">
+<script>
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  updateProfile,
+} from "firebase/auth";
+import { uuid } from "vue-uuid";
+import { useRouter } from "vue-router";
+
+export default {
+  setup() {
+    const router = useRouter();
+    const submitHandler = async (data) => {
+      const body = new FormData();
+      const imageName = uuid.v4();
+      const storage = getStorage();
+
+      const storageRef = ref(storage, `images/${imageName}`);
+      const snapshot = await uploadBytes(storageRef, data.license[0].file);
+      const url = await getDownloadURL(snapshot.ref);
+
+      body.append("email", data.email);
+      body.append("name", data.name);
+      body.append("password", data.password);
+      body.append("photo", url);
+
+      // signup
+      const auth = getAuth();
+      createUserWithEmailAndPassword(auth, data.email, data.password)
+        .then(function (result) {
+          return updateProfile(result.user, {
+            displayName: data.name,
+            photoURL: url,
+          });
+        })
+        .then((user) => {
+          console.log(user);
+          // if (user.accessToken) {
+          //   router.replace("/");
+          // }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+
+    return {
+      submitHandler,
+    };
+  },
+};
+// import { ref } from 'vue';
+//
+//     const submitted = ref(false);
+
+//     const submitHandler = async () => {
+//       // Let's pretend this is an ajax request:
+//       await new Promise((r) => setTimeout(r, 1000));
+//       submitted.value = true;
+//     };
+//   },
+</script>
+
+<style lang="scss" scoped>
 .form {
   width: 420px;
   padding: 1.5em;
@@ -55,7 +129,7 @@
   margin: 10rem auto 1em auto;
 }
 
-button{
-  background-color: #5DA3FA !important;
+button {
+  background-color: #5da3fa !important;
 }
 </style>
