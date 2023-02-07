@@ -65,10 +65,15 @@ import {
 } from "firebase/auth";
 import { uuid } from "vue-uuid";
 import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 
 export default {
   setup() {
     const router = useRouter();
+    const auth = getAuth();
+    const store = useStore();
+
+
     const submitHandler = async (data) => {
       const body = new FormData();
       const imageName = uuid.v4();
@@ -83,24 +88,22 @@ export default {
       body.append("password", data.password);
       body.append("photo", url);
 
-      // signup
-      const auth = getAuth();
-      createUserWithEmailAndPassword(auth, data.email, data.password)
-        .then(function (result) {
-          return updateProfile(result.user, {
-            displayName: data.name,
-            photoURL: url,
-          });
-        })
-        .then((user) => {
-          console.log(user);
-          // if (user.accessToken) {
-          //   router.replace("/");
-          // }
-        })
-        .catch((err) => {
-          console.log(err);
+      try {
+        const { user } = await createUserWithEmailAndPassword(
+          auth,
+          data.email,
+          data.password
+        );
+        await updateProfile(user, { displayName: data.name, photoURL: url });
+
+        store.dispatch("login", {
+          id: user.uid,
+          token: user.accessToken,
+          tokenExpiration: user.stsTokenManager.expirationTime
         });
+      } catch (error) {
+        console.log(error);
+      }
     };
 
     return {

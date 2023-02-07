@@ -7,53 +7,10 @@
         </div>
       </div>
       <div class="right">
-        <!-- <div class="navbar__icon">
-          <i class="fas fa-user-friends"></i>
-          <ul class="submenu">
-            <li class="friend__item">
-              <div class="friend__img">
-                <img src="@/assets/images/asd.jpg" alt="" />
-              </div>
-              <div class="detail">
-                <div class="name">
-                  <b>aklsdla</b>
-                </div>
-                <div class="name">aklsdla</div>
-              </div>
-              <div class="user-minus-icon">
-                <i class="fa-solid fa-user-minus"></i>
-              </div>
-            </li>
-            <li class="friend__item">
-              <div class="friend__img">
-                <img src="@/assets/images/asd.jpg" alt="" />
-              </div>
-              <div class="detail">
-                <div class="name">
-                  <b>aklsdla</b>
-                </div>
-                <div class="name">aklsdla</div>
-              </div>
-              <div class="user-minus-icon">
-                <i class="fa-solid fa-user-minus"></i>
-              </div>
-            </li>
-            <li class="friend__item">
-              <div class="friend__img">
-                <img src="@/assets/images/asd.jpg" alt="" />
-              </div>
-              <div class="detail">
-                <div class="name">
-                  <b>aklsdla</b>
-                </div>
-                <div class="name">aklsdla</div>
-              </div>
-              <div class="user-minus-icon">
-                <i class="fa-solid fa-user-minus"></i>
-              </div>
-            </li>
-          </ul>
-        </div> -->
+        <div class="navbar__icon">
+          <img src="@/assets/images/images.jpg" alt="" class="profile-img" />
+        </div>
+
         <div class="navbar__icon">
           <i class="fas fa-user-friends"></i>
           <div class="submenu-holder friends-menu">
@@ -164,6 +121,12 @@
 </template>
 
 <style lang="scss" scoped>
+.profile-img {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
 .navbar__icon:hover > .submenu-holder {
   display: block;
 }
@@ -173,16 +136,16 @@
   height: auto;
   max-height: 20rem;
 }
-.badge{
-  background-color: #B4161B;
+.badge {
+  background-color: #b4161b;
   top: -1rem;
   border-radius: 50%;
   position: absolute;
-  font-size: .8rem;
+  font-size: 0.8rem;
   width: 1.8rem;
   height: 1.8rem;
   text-align: center;
-  line-height: 1.8rem ;
+  line-height: 1.8rem;
   color: white;
 }
 .friends-menu {
@@ -294,6 +257,7 @@
 
 .right {
   display: flex;
+  align-items: center;
   gap: 2rem;
   font-size: 1.5rem;
 }

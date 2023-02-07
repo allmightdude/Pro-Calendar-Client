@@ -1,4 +1,42 @@
 <template>
+  <!-- <div class="members">
+    <div class="members__holder">
+      <div class="members__item">
+        <div class="members__img">
+          <img src="" alt="" />
+        </div>
+        <div class="members__info">
+          <h4 class="d-flex">
+            Farid Sabzi
+            <div class="add">
+              <div class="user-plus-icon">
+                <i class="fas fa-user-plus"></i>
+              </div>
+            </div>
+          </h4>
+          <p>Developer</p>
+        </div>
+      </div>
+      <div class="members__item">
+        <div class="members__img">
+          <img src="" alt="" />
+        </div>
+        <div class="members__info">
+          <h4 class="d-flex">
+            Farid Sabzi
+            <div class="add">
+              <div class="user-plus-icon">
+                <i class="fas fa-user-plus"></i>
+              </div>
+            </div>
+          </h4>
+          <div class="add">adsas</div>
+          <p>Developer</p>
+        </div>
+      </div>
+    </div>
+  </div>
+   -->
   <div class="loading" v-if="loading">
     <base-card>
       <img src="@/assets/loader.gif" alt="" />
@@ -625,6 +663,50 @@ li {
       font-weight: 500;
       color: rgba(#51565d, 0.7);
     }
+  }
+}
+
+.members {
+  width: 100%;
+  height: 100vh;
+  background: rgba(#000, 0.52);
+  backdrop-filter: blur(2px);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &__holder {
+    background-color: #fff;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    width: 40rem;
+    max-width: 40rem;
+    padding: 1.5rem 3rem;
+    border-radius: 10px;
+  }
+
+  &__item {
+    margin-top: 1rem;
+  }
+
+  &__img {
+    width: 4rem;
+    height: 4rem;
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+  .add {
+    margin-left: auto;
+  }
+
+  p {
+    font-size: 1rem;
   }
 }
 </style>

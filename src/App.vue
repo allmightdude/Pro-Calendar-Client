@@ -2,6 +2,32 @@
   <router-view />
 </template>
 
+<script>
+import { onAuthStateChanged } from "firebase/auth";
+
+import { getAuth } from "firebase/auth";
+import { useStore } from "vuex";
+
+export default {
+  setup() {
+    const auth = getAuth();
+    const store = useStore();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        store.dispatch("setUser", {
+          id : user.uid,
+          token : user.accessToken
+        });
+        // ...
+      } else {
+        // User is signed out
+        // ...
+      }
+    });
+  },
+};
+</script>
+
 <style lang="scss">
 html,
 body {
@@ -30,13 +56,25 @@ body {
   font-size: 1.5rem;
 }
 
-ul , li{
+ul,
+li {
   list-style: none;
 }
 
-.mt-1{margin-top: 1rem;}
-.mt-2{margin-top: 2rem;}
-.mt-3{margin-top: 3rem;}
-.mt-4{margin-top: 4rem;}
+.mt-1 {
+  margin-top: 1rem;
+}
+.mt-2 {
+  margin-top: 2rem;
+}
+.mt-3 {
+  margin-top: 3rem;
+}
+.mt-4 {
+  margin-top: 4rem;
+}
 
+.d-flex {
+  display: flex;
+}
 </style>
