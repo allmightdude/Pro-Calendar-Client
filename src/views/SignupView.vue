@@ -96,14 +96,14 @@ export default {
         );
         await updateProfile(user, { displayName: data.name, photoURL: url });
 
-        store.dispatch("login", {
-          id: user.uid,
-          token: user.accessToken,
-          tokenExpiration: user.stsTokenManager.expirationTime
-        });
+        store.dispatch("setUser", auth.currentUser);
+        if(user){
+          router.replace('/')
+        }
       } catch (error) {
         console.log(error);
       }
+      
     };
 
     return {

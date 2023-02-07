@@ -5,8 +5,7 @@ import actions from "./actions";
 export default {
   state() {
     return {
-      token : null,
-      userId: null,
+      user : null,
     };
   },
   getters,

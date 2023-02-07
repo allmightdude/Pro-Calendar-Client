@@ -7,21 +7,19 @@ import { onAuthStateChanged } from "firebase/auth";
 
 import { getAuth } from "firebase/auth";
 import { useStore } from "vuex";
+import { useRouter } from "vue-router";
 
 export default {
   setup() {
     const auth = getAuth();
     const store = useStore();
+    const router = useRouter();
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        store.dispatch("setUser", {
-          id : user.uid,
-          token : user.accessToken
-        });
+        store.dispatch("setUser", auth.currentUser);
         // ...
       } else {
-        // User is signed out
-        // ...
+        router.replace('/login')
       }
     });
   },
