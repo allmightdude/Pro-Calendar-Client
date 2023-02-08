@@ -3,6 +3,9 @@ export default {
     return state.events;
   },
   isLoggedin(state) {
-    return state.token && state.userId;
+    return !!state.user;
   },
+  user(state){
+    return state.user
+  }
 };
