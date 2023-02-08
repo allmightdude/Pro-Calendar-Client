@@ -6,9 +6,9 @@
           <h2>Cleiary</h2>
         </div>
       </div>
-      <div class="right">
+      <div class="right" v-if="isLoggedin">
         <div class="navbar__icon">
-          <img src="@/assets/images/images.jpg" alt="" class="profile-img" />
+          <img :src="user.photoURL" alt="" class="profile-img" />
         </div>
 
         <div class="navbar__icon">
@@ -112,8 +112,13 @@
           <i class="fas fa-user-plus"></i>
         </div>
 
-        <div class="navbar__icon">
+        <div class="navbar__icon" @click="logout">
           <i class="fas fa-sign-out"></i>
+        </div>
+      </div>
+      <div class="register" v-else>
+        <div class="navbar__icon">
+          <i class="fas fa-sign-in"></i>
         </div>
       </div>
     </nav>
@@ -121,10 +126,21 @@
 </template>
 <script>
 export default {
-  computed(){
-    
-  }
-}
+  computed: {
+    isLoggedin() {
+      return this.$store.getters["isLoggedin"];
+    },
+    user() {
+      return this.$store.getters["user"];
+    },
+  },
+
+  methods: {
+    logout(){
+      this.$store.dispatch('logout');
+    }
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -267,6 +283,8 @@ export default {
   align-items: center;
   gap: 2rem;
   font-size: 1.5rem;
+  margin-left: auto;
+  margin-right: 1rem;
 }
 
 .fa-user-minus:hover {
