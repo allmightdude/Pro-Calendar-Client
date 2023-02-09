@@ -1,3 +1,5 @@
 export default {
-  auth() {},
+  getEvents(context , payload){
+    context.commit('storeEvents' , payload.events)
+  }
 };

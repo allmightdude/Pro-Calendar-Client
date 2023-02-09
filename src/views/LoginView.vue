@@ -32,11 +32,42 @@
 
       <FormKit type="submit" label="Login" />
     </FormKit>
-    <div v-if="submitted">
-      <h2>Submission successful!</h2>
-    </div>
   </div>
 </template>
+
+<script>
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
+export default {
+  setup() {
+    const auth = getAuth();
+    const router = useRouter();
+    const store = useStore();
+
+    const submitHandler = async (data) => {
+      try {
+        const { user } = await signInWithEmailAndPassword(
+          auth,
+          data.email,
+          data.password
+        );
+        store.dispatch("setUser", auth.currentUser);
+
+        if (user) {
+          router.replace("/");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    return {
+      submitHandler,
+    };
+  },
+};
+</script>
 
 <style lang="scss" scoped>
 .form {
@@ -47,7 +78,7 @@
   margin: 10rem auto 1em auto;
 }
 
-button{
-  background-color: #5DA3FA !important;
+button {
+  background-color: #5da3fa !important;
 }
 </style>

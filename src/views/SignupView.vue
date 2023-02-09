@@ -75,18 +75,12 @@ export default {
 
 
     const submitHandler = async (data) => {
-      const body = new FormData();
       const imageName = uuid.v4();
       const storage = getStorage();
 
       const storageRef = ref(storage, `images/${imageName}`);
       const snapshot = await uploadBytes(storageRef, data.license[0].file);
       const url = await getDownloadURL(snapshot.ref);
-
-      body.append("email", data.email);
-      body.append("name", data.name);
-      body.append("password", data.password);
-      body.append("photo", url);
 
       try {
         const { user } = await createUserWithEmailAndPassword(
