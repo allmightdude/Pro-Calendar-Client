@@ -87,7 +87,11 @@
 
           <ul class="task-wrapper" v-if="checkEvent(day).length > 0">
             <li
-              class="task task--warning"
+              class="task"
+              :style="{
+                backgroundColor: task.color,
+                borderLeftColor: shadeColor(task.color, 80),
+              }"
               v-for="task in checkEvent(day)"
               :key="task.id"
               @click="showEvent(task)"
@@ -129,6 +133,7 @@ import { computed, onMounted, reactive, ref } from "vue";
 import { collection, getDocs } from "firebase/firestore";
 import { useStore } from "vuex";
 import db from "../init.js";
+import shadeColor from "../utils/shadeColor";
 
 export default {
   setup() {
@@ -321,6 +326,8 @@ export default {
 
       loading,
       eventSelected,
+
+      shadeColor,
     };
   },
 };
@@ -420,6 +427,7 @@ export default {
   overflow: hidden;
   overflow-y: scroll;
   z-index: 10;
+  color: white;
 }
 
 ul,
